@@ -22,6 +22,6 @@
     "notifications"
   ],
   "host_permissions": [
-    "http://localhost:5252/*"
+    "https://bytevault-8jg9.onrender.com/*"
   ]
 }

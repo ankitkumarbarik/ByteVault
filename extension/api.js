@@ -1,6 +1,6 @@
 import { getStorageData, removeStorageData, setStorageData } from "./state.js";
 
-const API_BASE = "http://localhost:5252/api";
+const API_BASE = "https://bytevault-8jg9.onrender.com/api";
 
 // Helper to handle API requests dynamically
 export async function apiFetch(endpoint, options = {}) {
