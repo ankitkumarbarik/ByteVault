@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteVault Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Login / Auth Check overlay -->
+    <div id="auth-loading" class="auth-loading">
+        <div class="spinner"></div>
+        <p>Verifying session...</p>
+    </div>
+
+    <div class="dashboard-layout hidden" id="dashboard-layout">
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="icons/icon48.png" alt="ByteVault Logo" style="width: 32px; height: 32px; object-fit: contain;">
+                <h2>ByteVault</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button id="nav-tabs" class="nav-item active">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    </span> All Tabs
+                </button>
+                <button id="nav-sessions" class="nav-item">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    </span> All Sessions
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="user-info">
+                        <span id="user-email" class="email">user@example.com</span>
+                    </div>
+                </div>
+                <div class="sidebar-buttons" style="display: flex; gap: 8px; width: 100%;">
+                    <button id="open-settings-btn" class="sidebar-btn" title="Dashboard Settings">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        </span> Settings
+                    </button>
+                    <button id="logout-btn" class="sidebar-btn danger-hover" title="Log Out">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        </span> Exit
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header" id="top-header-main">
+                <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
+                    <button id="mobile-menu-toggle" class="icon-btn mobile-toggle-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <h1 id="page-title">Saved Tabs</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-wrap">
+                        <span class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </span>
+                        <input type="text" id="dashboard-search" placeholder="Search saved items..." class="search-input">
+                    </div>
+                </div>
+            </header>
+
+            <header class="top-header hidden" id="top-header-detail">
+                <div class="header-left" style="display: flex; align-items: center; gap: 16px;">
+                    <button id="back-to-sessions-btn" class="btn text-btn" style="padding-left: 0;">← Back</button>
+                    <div>
+                        <h1 id="detail-page-title" style="font-size: 18px; font-weight: 600;">Session Details</h1>
+                        <p id="detail-page-desc" style="font-size: 13px; color: var(--text-secondary);"></p>
+                    </div>
+                </div>
+                <div class="header-right" style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 13px; color: var(--text-secondary); margin-right: 4px;">Launch in:</span>
+                    <button id="detail-launch-current" class="btn outline" style="padding: 8px 12px; display: flex; align-items: center; font-size: 13px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        Current
+                    </button>
+                    <button id="detail-launch-new" class="btn outline" style="padding: 8px 12px; display: flex; align-items: center; font-size: 13px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                        New Window
+                    </button>
+                    <button id="detail-launch-incognito" class="btn outline" style="padding: 8px 12px; display: flex; align-items: center; font-size: 13px; color: #0ea5e9; border-color: rgba(255, 255, 255, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        Incognito
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div id="loading-spinner" class="spinner center"></div>
+                
+                <div id="empty-state" class="empty-state hidden">
+                    <div class="empty-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    </div>
+                    <h3>Start Saving</h3>
+                    <p>You don't have any items here yet. Use the extension to save tabs.</p>
+                </div>
+
+                <!-- Grid/List View for Items -->
+                <div id="items-grid" class="items-grid">
+                    <!-- Cards injected here via JS -->
+                </div>
+            </div>
+
+            <footer class="content-footer">
+                <div class="pagination">
+                    <button id="prev-page" class="btn text-btn" disabled>← Prev</button>
+                    <span id="page-indicator" class="page-indicator">Page 1</span>
+                    <button id="next-page" class="btn text-btn" disabled>Next →</button>
+                </div>
+                <button id="export-btn" class="btn text-btn">⬇ Export Vault</button>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Script references -->
+    <script type="module" src="dashboard.js"></script>
+
+
+
+    <!-- Theme Settings Modal -->
+    <div id="settings-overlay" class="settings-overlay">
+        <div class="settings-modal" onclick="event.stopPropagation()">
+            <div class="settings-header">
+                <div>
+                    <h2>Theme Settings</h2>
+                    <p>Choose visual mode and color palette.</p>
+                </div>
+                <button id="close-settings-btn" class="close-settings-btn">×</button>
+            </div>
+            <div class="settings-body">
+                <div class="setting-group">
+                    <div class="setting-row">
+                        <span class="setting-label">Mode</span>
+                        <select id="mode-select" class="custom-select">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <p class="setting-desc">Switches surface brightness.</p>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-row">
+                        <span class="setting-label">Palette</span>
+                        <select id="palette-select" class="custom-select">
+                            <option value="orange">Orange</option>
+                            <option value="indigo">Indigo</option>
+                            <option value="emerald">Emerald</option>
+                            <option value="rose">Rose</option>
+                            <option value="amethyst">Amethyst</option>
+                            <option value="cyan">Cyan</option>
+                            <option value="violet">Violet</option>
+                            <option value="fuchsia">Fuchsia</option>
+                            <option value="sky">Sky</option>
+                            <option value="lime">Lime</option>
+                            <option value="teal">Teal</option>
+                            <option value="slate">Slate</option>
+                        </select>
+                    </div>
+                    <p class="setting-desc">Changes accent colors.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
